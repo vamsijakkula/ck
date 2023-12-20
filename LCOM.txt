@@ -1,1 +1,47 @@
 LCOM: It measures how strongly related the methods and fields within a class are, indicating class cohesion.
+https://github.com/mauricioaniche/ck/blob/master/src/main/java/com/github/mauricioaniche/ck/metric/LCOM.java
+https://github.com/mauricioaniche/ck/blob/master/src/main/java/com/github/mauricioaniche/ck/metric/LCOMNormalized.java
+
+Class and Interfaces:
+
+LCOMNormalized implements two interfaces: CKASTVisitor and ClassLevelMetric.
+CKASTVisitor: Allows visiting different nodes of the Java AST.
+ClassLevelMetric: Metrics calculated at the class level.
+Data Structures:
+
+declaredFields: Stores field names and the methods that access them.
+methods: Stores method names.
+flags: Used for tracking method recursion.
+Tracking Field Access:
+
+visit(FieldDeclaration): Records declared fields.
+visit(SimpleName): If a field name is encountered, calls accessed to record the accessing method.
+accessed: Adds the current method name to the set of methods that access the field.
+Tracking Method Calls:
+
+visit(MethodDeclaration): Adds the method name to the methods list.
+Handles recursion by using the flags list.
+Calculating LCOM Normalized:
+
+setResult(CKClassResult): Calculates and stores the LCOM Normalized value for the class.
+Applies the formula: LCOM = 1/a * (Σ{i=1 to a} {(m - μ(Ai)) / m}).
+a: Number of attributes (fields).
+m: Number of methods.
+μ(Ai): Number of methods accessing attribute Ai.
+Additional Information:
+
+Based on Henderson-Sellers' definition of LCOM (1996).
+Formula extracted from https://github.com/cqfn/jpeek/blob/master/papers/sellers96_LCOM2_LCOM3_LCOM5.pdf.
+
+Low LCOM (<= 70): Indicates strong cohesion, methods likely operate on the same data or functionality.
+Moderate LCOM (71-80): Acceptable in some cases, may warrant attention if complexity increases.
+High LCOM (>80): Raises concerns about potential low cohesion, methods might belong in different classes.
+
+Context matters: High LCOM isn't inherently bad. Some classes, like utility classes, might naturally have higher LCOM.
+Analyze contributing factors: Understand why methods access unrelated fields. Refactor if logic needs separation.
+Consider alternative metrics: LCOM focuses on field access. Metrics like RFC (Response for a Class) might provide broader cohesion insights.
+Balance with other metrics: High LCOM alone doesn't guarantee design problems. Evaluate class complexity, maintainability, and coupling measures for a holistic understanding.
+
+Refactoring tips: Extract common logic into helper methods, move unrelated functionality to separate classes.
+Review code: Discuss high LCOM cases with your team to find potential improvements.
+Set thresholds: Define LCOM levels based on your project's context and coding style.
