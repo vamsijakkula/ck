@@ -1,0 +1,38 @@
+Tight Class Cohesion (TCC) and Loose Class Cohesion (LCC) metrics for classes
+
+These metrics measure the degree to which methods within a class are related to each other, indicating class cohesion.
+
+Class and Interfaces:
+
+TightClassCohesion implements CKASTVisitor and ClassLevelMetric interfaces.
+Relies on results from RFC, MethodLevelFieldUsageCount, and MethodInvocationsLocal metrics.
+Direct Connections:
+
+getDirectConnections: Identifies directly connected methods based on:
+Shared access to class-level variables.
+Call trees accessing the same class-level variable (within the class).
+Indirect Connections:
+
+getIndirectConnections: Identifies indirectly connected methods that are not directly connected but linked through other methods.
+Connection Extraction:
+
+extractConnections recursively traces indirect connections.
+Metric Calculation:
+
+setResult: Calculates TCC and LCC values:
+TCC: Proportion of direct connections to maximum possible connections.
+LCC: Proportion of both direct and indirect connections to maximum possible connections.
+
+
+Interpreting TCC and LCC: Higher values generally indicate stronger cohesion.
+Consider alongside other metrics: TCC and LCC provide valuable insights into class cohesion but should be used in conjunction with other metrics to assess overall code quality.
+Refactoring: Low cohesion might suggest opportunities for refactoring, such as extracting unrelated functionality into separate classes or modules.
+
+High TCC and LCC (close to 1): Ideal scenario, methods within the class are strongly related and focused on a single theme.
+Moderate TCC and LCC (0.5-0.8): Acceptable in some cases, might warrant attention if complexity increases or other metrics hint at potential issues.
+Low TCC and LCC (below 0.5): Raises concerns about weak cohesion, methods might belong in different classes or need refactoring.
+
+Context matters: High TCC and LCC aren't inherently bad. Utility classes or those with specific internal tasks might naturally have higher values.
+Analyze contributing factors: Understand why methods lack coherence. Consider logic duplication, unrelated functionalities, or poor design.
+Refactoring: Low cohesion suggests potential improvements. Extract common logic, move unrelated functionalities to separate classes, or reorganize methods for better focus.
+Combine with other metrics: TCC and LCC focus on method relationships within a class. Metrics like RFC (Response for a Class) or CBO (Coupling Between Objects) provide broader insights into class complexity and external dependencies.
