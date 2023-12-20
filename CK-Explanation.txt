@@ -1,0 +1,44 @@
+CBO: It measures the number of dependencies a class or method has on other classes, excluding dependencies on Java's own classes.
+Class and Interfaces:
+  CBO implements two interfaces: CKASTVisitor, ClassLevelMetric, and MethodLevelMetric.
+  CKASTVisitor: Allows visiting different nodes of the Java AST (Abstract Syntax Tree) for analysis.
+  ClassLevelMetric: Metrics calculated at the class level.
+  MethodLevelMetric: Metrics calculated at the method level.
+Core Functionality:
+  Tracking Coupling:
+    The coupling set stores names of classes the code depends on.
+    Various visit methods (e.g., visit(MethodInvocation), visit(ParameterizedType)) are called for different AST nodes.
+    These methods call coupleTo to add dependencies to the coupling set.
+    coupleTo handles different types (Type, ITypeBinding, SimpleName, Annotation) and cleans class names for consistency.
+  Calculating CBO:
+    setResult methods are called to store the calculated CBO value for a class or method.
+    clean method removes potential duplicates from the coupling set.
+    getValue returns the size of the coupling set, representing the CBO value.
+
+Guideline
+    Low CBO (<= 7): Indicates low dependency risk, likely well-designed and maintainable.
+    Moderate CBO (8-15): Acceptable for most cases, but watch for potential complexity increase.
+    High CBO (>15): Raises concerns about potential difficulties in understanding, maintaining, and modifying the code. May indicate over-coupling or unnecessary dependencies.
+
+
+    Unfortunately, there aren't universally accepted thresholds for CBO (Coupling Between Objects) as it depends on several factors like:
+
+    Project specifics: Size, complexity, programming language, team skills, etc.
+    Class/method role: Utility classes might naturally have higher CBO compared to core business logic.
+    Development style: Some teams favor tighter coupling for easier collaboration, while others prioritize looser coupling for increased maintainability.
+    However, general guidelines can be helpful:
+
+    Low CBO (<= 7): Indicates low dependency risk, likely well-designed and maintainable.
+
+    Moderate CBO (8-15): Acceptable for most cases, but watch for potential complexity increase.
+
+    High CBO (>15): Raises concerns about potential difficulties in understanding, maintaining, and modifying the code. May indicate over-coupling or unnecessary dependencies.
+    It's essential to interpret CBO in context with other metrics, code reviews, and your project's specific needs. High CBO alone doesn't necessarily imply bad design, but it warrants further investigation.
+
+    Here are some best practices for managing CBO:
+
+    Favor composition over inheritance: Prefer using interfaces and composition to minimize direct class dependencies.
+    Extract helper methods: Refactor complex logic into reusable methods to avoid code duplication and coupling.
+    Use loose coupling: Favor interfaces and abstract classes over concrete implementations for flexibility and reduced dependencies.
+    Code reviews: Regularly review code with CBO in mind to identify potential opportunities for decoupling.
+    
