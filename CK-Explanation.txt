@@ -1,4 +1,5 @@
 CBO: It measures the number of dependencies a class or method has on other classes, excluding dependencies on Java's own classes.
+https://github.com/mauricioaniche/ck/blob/master/src/main/java/com/github/mauricioaniche/ck/metric/CBO.java
 Class and Interfaces:
   CBO implements two interfaces: CKASTVisitor, ClassLevelMetric, and MethodLevelMetric.
   CKASTVisitor: Allows visiting different nodes of the Java AST (Abstract Syntax Tree) for analysis.
