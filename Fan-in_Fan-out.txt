@@ -1,0 +1,47 @@
+Fan-in/ Fan-out
+https://github.com/mauricioaniche/ck/blob/master/src/main/java/com/github/mauricioaniche/ck/metric/CouplingExtras.java
+
+Singleton Pattern:
+Only one instance of CouplingExtras exists, accessible through getInstance().
+Data Storage:
+Uses four maps to store coupling relationships:
+couplingClassIn: Classes that use a given class.
+couplingClassOut: Classes used by a given class.
+couplingMethodIn: Methods that use a given method.
+couplingMethodOut: Methods used by a given method.
+Tracking Coupling:
+addToSet... methods add coupling relationships to the maps.
+Calculating Metrics:
+getValueCBOClass calculates CBO for a class (Fan-In + Fan-Out).
+getValueCBOMethod calculates CBO for a method.
+getValueFanIn... and getValueFanOut... retrieve Fan-In/Fan-Out values.
+Data Cleaning:
+clean method removes duplicate coupling entries (e.g., fully qualified names and simple names).
+
+Fan-in and Fan-out are related metrics that measure the coupling between entities (classes, methods, modules) in software code.
+
+Fan-in: The number of entities that depend on a specific entity (e.g., methods that call a specific method).
+Fan-out: The number of entities that a specific entity depends on (e.g., a method that calls other methods).
+
+
+Reduce Fan-in:
+Extract common functionalities into separate methods or classes.
+Use interfaces for abstraction and looser coupling.
+Delegate tasks to more specialized entities.
+
+Reduce Fan-out:
+Extract private helper methods within the entity to encapsulate dependencies.
+Use dependency injection to inject needed dependencies instead of direct calls.
+Utilize design patterns like Facade or Mediator to mediate interactions.
+
+Fan-in:
+
+Low (1-5): Generally considered ideal, indicating minimal dependencies and well-focused functionality.
+Moderate (5-10): Acceptable for most cases, especially in larger projects or complex frameworks.
+High (10+): Starts becoming a potential concern, might indicate tight coupling and difficulty in maintaining or modifying the entity.
+Fan-out:
+
+Low (1-3): Can be a bit restrictive, might lead to unnecessary code duplication.
+Moderate (3-7): Generally acceptable, provides good balance between complexity and reusability.
+High (7+): Raises concerns about code readability and potential spaghetti code. Use with caution and analyze dependencies carefully.
+
