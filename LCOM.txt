@@ -1,0 +1,1 @@
+LCOM: It measures how strongly related the methods and fields within a class are, indicating class cohesion.
