@@ -1,0 +1,36 @@
+DIT measures the level of inheritance in a class hierarchy, indicating how deeply a class is nested within its parent classes.
+https://github.com/mauricioaniche/ck/blob/master/src/main/java/com/github/mauricioaniche/ck/metric/DIT.java
+
+Class and Interfaces:
+
+DIT implements CKASTVisitor and ClassLevelMetric interfaces, allowing it to traverse the AST and store metric results.
+Initialization:
+
+dit is initialized to 1, accounting for the root Object class that all classes inherit from.
+Type Declaration Handling:
+
+visit(TypeDeclaration): Called for each type declaration (class, interface, enum).
+Resolves the type binding to get information about the class.
+Calls calculate to compute DIT.
+DIT Calculation:
+
+calculate(ITypeBinding): Recursively calculates DIT:
+Gets the superclass binding.
+Stops if the superclass is Object.
+Increments dit and recursively calls calculate for the superclass.
+Storing Result:
+
+setResult(CKClassResult): Stores the calculated DIT value in the class result object.
+
+Interpreting DIT: Higher DIT generally suggests greater complexity and potential maintenance challenges.
+Consider alongside other metrics: DIT is one aspect of class design and should be evaluated with metrics like LCOM, RFC, and CBO for a comprehensive view.
+Refactoring: Deep inheritance hierarchies can sometimes be simplified by using composition or design patterns.
+
+Low DIT (1-2): Shallow inheritance, indicates simple class relationships.
+Moderate DIT (3-5): Acceptable in most cases, manageable complexity.
+High DIT (6+): Raises concerns about potential design issues. Deeply nested classes might be overly complex, less maintainable, and harder to understand.
+
+Context matters: High DIT isn't inherently bad. Some frameworks or domains might naturally have deeper inheritance hierarchies.
+Analyze contributing factors: Understand why classes are deeply nested. Consider unnecessary inheritance levels, code duplication, or potential for composition.
+Refactoring: High DIT suggests potential improvements. Consider alternatives like using interfaces, composition instead of inheritance, or splitting complex classes into smaller units.
+Combine with other metrics: DIT alone doesn't paint the whole picture. Evaluate it alongside metrics like RFC (Response for a Class), LCOM (Lack of Cohesion in Methods), and CBO (Coupling Between Objects) for a holistic understanding of class complexity and design.
